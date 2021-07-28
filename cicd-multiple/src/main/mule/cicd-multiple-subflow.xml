@@ -10,11 +10,11 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
 
 	<sub-flow name="cicd-multiy-subflow" doc:id="c93cd15c-388f-4e31-b358-19fea3f84c6d" >
-		<json-logger:logger doc:name="Start" doc:id="9b4e3f95-e32b-4f00-8a56-3d592fccca41" config-ref="JSON_Logger_Config" message='#["Here is my newly imported Json Logger in action!.............***************..............  Yoni"]' category="com.yoniJson.api.sample//optional" />
-		<db:select doc:name="Select" doc:id="57ffacd6-9bf6-4855-aa91-88232e01f2ed" config-ref="Database_Config" >
+		<json-logger:logger doc:name="Start " doc:id="9b4e3f95-e32b-4f00-8a56-3d592fccca41" config-ref="JSON_Logger_Config" message='#["Here is my newly imported Json Logger in action!.............***************..............  Yoni"]' category="com.yoniJson.api.sample//optional" />
+		<db:select doc:name="መዝገብ ቤት | Select" doc:id="57ffacd6-9bf6-4855-aa91-88232e01f2ed" config-ref="Database_Config" >
 			<db:sql ><![CDATA[select * from [dbo].[CICD]]]></db:sql>
 		</db:select>
-		<ee:transform doc:name="Transform Message" doc:id="c5b0f673-7ebb-495e-b41a-43af511145e0" >
+		<ee:transform doc:name="ተርጓሚ" doc:id="c5b0f673-7ebb-495e-b41a-43af511145e0" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -35,11 +35,12 @@ payload]]></ee:set-payload>
 ]]></email:content>
 			</email:body>
 		</email:send>
-		<ee:transform doc:name="Transform Message" doc:id="b1e744f4-7aae-46f7-9bff-de6da7039235" >
+		<ee:transform doc:name="ተርጓሚ" doc:id="b1e744f4-7aae-46f7-9bff-de6da7039235" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
+
 {
 	"Status": 200,
 	"message": "DB file fetched, written at FTP site, Confirmation Email sent successfully, Please check your email now!",
