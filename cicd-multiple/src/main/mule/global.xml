@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd 
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd 
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+	
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="bc7b97d0-d488-46d5-8a48-8420f059dc99" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	
+	<configuration-properties doc:name="Configuration properties" doc:id="9306d88c-63e4-44fb-96a1-117361b6faad" file="configuration\local.properties" />
+	<global-property doc:name="Global Property" doc:id="19da71b1-c871-4d14-b44c-90a4703f990c" name="env" value="local" />
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="439e7df8-0349-44b8-ba37-ed2900506d1f" >
+		<db:mssql-connection host="${db.host}" instanceName="${db.instanceName}" port="${db.port}" user="${db.user}" password="${secure::db.password}" databaseName="${db.databaseName}" />
+	</db:config>
+	<ftp:config name="FTP_Config" doc:name="FTP Config" doc:id="b5bb9707-71a9-4f76-89c6-7ea402cb2044" >
+		<ftp:connection workingDir="${ftp.directory}" host="${ftp.host}" port="${ftp.port}" username="${ftp.username}" password="${secure::ftp.password}" />
+	</ftp:config>
+	
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure_Properties_Config" doc:id="83704031-0bfd-469f-84d0-a4975e928df3" file="configuration\local-secured.properties" key="Mayo7882*#*Redu2009*#*">
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	
+	<email:smtp-config name="Email_SMTP" doc:name="Email_SMTP" doc:id="2f85965c-4836-47c0-8edf-6747795a5762">
+		<email:smtps-connection host="${email.host}" port="${email.port}" user="${email.user}" password="${secure::email.password}">
+	
+			<tls:context>
+				<tls:trust-store insecure="true" />
+			</tls:context>
+		</email:smtps-connection>
+	</email:smtp-config>
+		<json-logger:config name="JSON_Logger_Config" doc:name="JSON Logger Config" doc:id="82b0d322-e992-4126-a1fe-2ae31d29d885" environment="${mule.env}" />
+	
+	
+</mule>
