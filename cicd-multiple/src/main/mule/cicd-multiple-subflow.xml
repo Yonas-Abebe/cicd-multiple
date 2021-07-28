@@ -19,6 +19,7 @@ http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/em
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
+
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
@@ -42,7 +43,7 @@ output application/json
 ---
 
 {
-	"Status": 200,
+	"Status" : 200, 
 	"message": "DB file fetched, written at FTP site, Confirmation Email sent successfully, Please check your email now!",
  	"Payload":  payload
  }]]></ee:set-payload>
